@@ -74,6 +74,7 @@ which could appear directly under `sch:schema`. The `name` attribute can then be
 
 `reference` tags are converted to accumulators.
 
+```xslt
 <xsl:accumulator name="vRefData"
                     as="node()?"
                     initial-value="()"
@@ -88,7 +89,7 @@ which could appear directly under `sch:schema`. The `name` attribute can then be
 
 A `xsl:variable` is introduced to the grounded portion of each generated burst-mode `sch:rule`.
 
-````xslt
+```xslt
 <xsl:variable name="refData" select="accumulator-after('vRefData') />
 ```
 
@@ -96,7 +97,7 @@ A `xsl:variable` is introduced to the grounded portion of each generated burst-m
 
 Optionally, we could add a attribute to `sch:rule` like `burst-use-reference` which would allow users to control which variables get defined, somewhat akin to `use-accumulators` (XSLT3).
 
-**Alternative Approach (2) **
+**Alternative Approach (2)**
 
 Create a function in the Schematron implementation, such as `sch:ref()`, which would serve as a wrapper around `accumulator-after`.
 
