@@ -64,6 +64,8 @@ In order to minimize complexity of the streaming extensions to the Schematron sp
 
 which could appear directly under `sch:schema`. The `name` attribute can then be used in any `burst-mode` rule, as a variable, e.g.
 
+`select` is optional and defaults to the current node (".").
+
 ```
 <sch:assert test="groundedNode = $vRefData/someNode">
 ```
