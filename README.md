@@ -41,7 +41,7 @@ This enables `sch:asserts` to access nodes on the child axis.
 The first approach is provide set a new attribute for each `sch:rule` such that the use of burst-mode can be enabled for each assert. 
 
 ```
-<sch:rule burst-mode="copy-of|snapshot" burst-target="{xpath}" context="book">
+<sch:rule burst-mode="copy-of|snapshot" context="book">
 ```
 
 > Note that this does not enable downward selections for the rule's `match`.
@@ -64,11 +64,22 @@ In order to minimize complexity of the streaming extensions to the Schematron sp
 
 which could appear directly under `sch:schema`. The `name` attribute can then be used in any `burst-mode` rule, as a variable, e.g.
 
-`select` is optional and defaults to the current node (".").
 
 ```
 <sch:assert test="groundedNode = $vRefData/someNode">
 ```
+
+#### Attribute `name`
+
+The name of the variable that becomes available to a burst-mode rule.
+
+#### Attribute `context`
+
+The context that is passed to the `accumulator-rule`.
+
+#### Attribute `select`
+
+The select that is passed to the `accumulator-rule`. `select` is optional and defaults to the current node (".").
 
 #### Implementation
 
