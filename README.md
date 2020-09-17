@@ -4,9 +4,9 @@ This document discusses the language extensions necessary to support streaming (
 
 ## Motivation
 
-There are many XML documents that require semantic validation beyond what XML Schema (or similar) can provide. Schematron has established itself as the de facto standard for writing semantic constraints against XML documents. However, because most Schematron implementations generate and execute XSLT at runtime, they are limited to the capabilities of that language.
+There are many XML documents that require semantic validation beyond what XML Schema (or similar) can provide. Schematron has established itself as the de facto standard for writing semantic constraints against XML documents. However, because most Schematron implementations use XSLT as their runtime engine, they are limited to the capabilities of that language.
 
-For a time, this precluded the use of Schematron for validation of large (for some definition of large) documents, as XSLT2 and prior did not support an approach to processing that was whose memory usage was stable.
+For a time, this precluded the use of Schematron for validation of large (for some definition of large) documents, as XSLT2 and prior did not support an approach to processing whose memory usage was stable.
 
 Streaming was introduced in XSLT3, and addresses many shortcomings around processing larger files. However, to enable streaming in Schematron, some modifications/extensions to the standard may be necessary.
 
@@ -32,23 +32,23 @@ This enables `sch:assert`s that are motionless.
 
 ## Burst mode streaming
 
-Burst-mode streaming is not formally defined in XSLT3. It is an feature a XSLT processor can provide to work around the single downward select restriction. This is done by copying an entire element into memory and processing that copy. This is handled via the XPath functions `copy-of()` or `snapshot()` (if ancestor access is desired).
+Burst-mode streaming is not formally defined in XSLT3. It is an feature an XSLT processor can provide to work around the single downward select restriction. This is done by copying an entire element into memory and processing that copy. This is handled via the XPath functions `copy-of()` or `snapshot()` (if ancestor access is desired).
 
-This enables `sch:asserts` to access nodes on the child axis.
+This enables `sch:assert`s to access nodes on the child axis.
 
 ### Analysis
 
 The first approach is provide set a new attribute for each `sch:rule` such that the use of burst-mode can be enabled for each assert. 
 
+```xml
+<sch:rule streaming="on|off|copy-of|snapshot|inherit" context="book">
 ```
-<sch:rule burst-mode="copy-of|snapshot" context="book">
-```
 
-> Note that this does not enable downward selections for the rule's `match`.
+> Note that this does not enable downward selections for the `sch:rule`'s `match`.
 
-#### Attribute `burst-mode`
+#### Attribute `streaming`
 
-`burst-mode` specifies the XSLT function to use. 
+`streaming` specifies the XSLT function to use. 
 
 ## Capturing Accumulators
 
@@ -59,13 +59,12 @@ Capturing accumulators are a feature of the *Saxon* XSLT processor. They are ver
 In order to minimize complexity of the streaming extensions to the Schematron specification, the syntax for using a capturing accumulator should be as simple as possible. One approach is to create a new element, e.g.
 
 ```xslt
-<sch:reference name="vRefData" context="refData" select="" />
+<sch:reference name="vRefData" context="refData" select="." />
 ```
 
 which could appear directly under `sch:schema`. The `name` attribute can then be used in any `burst-mode` rule, as a variable, e.g.
 
-
-```
+```xml
 <sch:assert test="groundedNode = $vRefData/someNode">
 ```
 
@@ -83,7 +82,7 @@ The select that is passed to the `accumulator-rule`. `select` is optional and de
 
 #### Implementation
 
-`reference` tags are converted to accumulators.
+`sch:reference` tags are converted to accumulators.
 
 ```xslt
 <xsl:accumulator name="vRefData"
@@ -119,3 +118,15 @@ Extend `sch:let` instead of introducing `sch:reference`.
 ## Regular Accumulators
 
 let someone else fill this out :-)
+
+## Axis support 
+
+This table describes some of the limitations of streaming, depending on what value you set for `xsl:rule`'s `streaming` attribute.
+
+| rule streaming      | XSLT streaming | rule context                                                              | assert test                  |
+|----------|----------|---------------------------------------------------------------------------|------------------------------|
+| off      | off      | all axis                                                                  | all axis                     |
+| on       | on       | current node and ancestors                                                | current node and ancestors   |
+| copy-of  | on       | current node and ancestors                                                | child                        |
+| snapshot | on       | current node and ancestors                                                | child and ancestor           |
+| inherit  | off      | all axis (up to copied or snapshotted node), then ancestor if snapshotted | child and sometimes ancestor |
