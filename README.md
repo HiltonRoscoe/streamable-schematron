@@ -129,4 +129,4 @@ This table describes some of the limitations of streaming, depending on what val
 | on       | on       | current node and ancestors                                                | current node and ancestors   |
 | copy-of  | on       | current node and ancestors                                                | child                        |
 | snapshot | on       | current node and ancestors                                                | child and ancestor           |
-| inherit  | off      | all axis (up to copied or snapshotted node), then ancestor if snapshotted | child and sometimes ancestor |
+| inherit  | off      | all axis (up to copied or snapshotted node), then ancestor if snapshotted | all axis (up to copied or snapshotted node), then ancestor if snapshotted |
