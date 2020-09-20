@@ -68,13 +68,18 @@ which could appear directly under `sch:schema`. The `name` attribute can then be
 <sch:assert test="groundedNode = $vRefData/someNode">
 ```
 
-#### Attribute `name`
+#### Attribute `apply-rules`
 
-The name of the variable that becomes available to a burst-mode rule.
+This will cause rules to be run in a grounded context, as the streaming rules will have already run. This can possibly save memory, by avoiding writing `sch:rule`s that use `streaming="copy-of|snapshot"` to validate captured data. 
 
 #### Attribute `context`
 
 The context that is passed to the `accumulator-rule`.
+
+#### Attribute `name`
+
+The name of the variable that becomes available to a burst-mode rule.
+
 
 #### Attribute `select`
 
