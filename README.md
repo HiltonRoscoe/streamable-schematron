@@ -38,7 +38,7 @@ This enables `sch:assert`s to access nodes on the child axis.
 
 ### Analysis
 
-The first approach is provide set a new attribute for each `sch:rule` such that the use of burst-mode can be enabled for each assert. 
+The first approach is to provide a new attribute for each `sch:rule` such that the use of burst-mode can be enabled for each assert.
 
 ```xml
 <sch:rule streaming="on|off|copy-of|snapshot|inherit" context="book">
@@ -79,7 +79,6 @@ The context that is passed to the `accumulator-rule`.
 #### Attribute `name`
 
 The name of the variable that becomes available to a burst-mode rule.
-
 
 #### Attribute `select`
 

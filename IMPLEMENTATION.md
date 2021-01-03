@@ -6,7 +6,7 @@ This document describes methods of implementing this proposal, using `schxslt`.
 
 ### `off`
 
-When streaming is turned off (the default), rules are converted to XSLT stuctures as before, perhaps with some optimizations taking advantage of XSLT3.
+When streaming is turned off (the default), rules are converted to XSLT structures as before, perhaps with some optimizations taking advantage of XSLT3.
 
 ### `on`
 
@@ -24,4 +24,4 @@ When streaming is turned to `inherit`, rules are converted to XSLT structures as
 
 ## Handling of `sch:reference`
 
-TODO: Fill this in.
+sch:reference is a wrapper around saxon:capture accumulators. 
